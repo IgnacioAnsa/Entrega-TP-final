@@ -1,4 +1,4 @@
-from funciones.complementarias import registrar_puntaje
+from funciones.complementarias import *
 import random
 
 # Jerarquía de las cartas del truco
@@ -136,6 +136,13 @@ def jugar_truco():
         print(f"\nPuntajes: {nombre_jugador} {puntos_jugador}, maquina {puntos_oponente}")
         registrar_puntaje(nombre_jugador, puntos_jugador)
 
+        if ronda == 3:
+            salir = input("¿Deseas continuar jugando? (si/no): ").lower()
+            if salir != "si":
+                print("\n¡Gracias por jugar! Mostrando el ranking histórico:")
+                print(leer_puntajes())  
+                return
+            
     # Registrar puntaje histórico
     registrar_puntaje(nombre_jugador, puntos_jugador)
     print("\n¡Juego terminado!")
