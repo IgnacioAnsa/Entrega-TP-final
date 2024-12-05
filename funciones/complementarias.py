@@ -24,24 +24,15 @@ def leer_puntajes() -> dict:
             # Leer el archivo y crear un diccionario, ignorando la cabecera
             return {fila[0]: int(fila[1]) for i, fila in enumerate(lector) if i > 0 and fila}
     except FileNotFoundError:
-        return {}
+        return {}  # Si no existe el archivo, devolver un diccionario vacío
 
 def guardar_puntajes(historico: dict) -> None:
-    # Leer el archivo para verificar si es necesario agregar la cabecera
-    try:
-        with open(archivo_puntajes, mode="r", newline="") as archivo:
-            lector = csv.reader(archivo)
-            datos_existentes = list(lector)
-    except FileNotFoundError:
-        datos_existentes = []
-
     # Escribir los puntajes actualizados en el archivo
     with open(archivo_puntajes, mode="w", newline="") as archivo:
         escritor = csv.writer(archivo)
 
-        # Si el archivo está vacío (o no tiene cabecera), escribir la cabecera
-        if not datos_existentes:
-            escritor.writerow(["Jugador", "Puntos"])
+        # Escribir la cabecera si el archivo está vacío o no tiene cabecera
+        escritor.writerow(["Jugador", "Puntos"])
 
         # Ordenar los jugadores por los puntos de mayor a menor
         ranking = sorted(historico.items(), key=lambda x: x[1], reverse=True)
@@ -49,6 +40,3 @@ def guardar_puntajes(historico: dict) -> None:
         # Escribir el ranking de jugadores en el archivo
         for nombre, puntos in ranking:
             escritor.writerow([nombre, puntos])
-
-
-
